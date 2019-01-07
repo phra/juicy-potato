@@ -681,10 +681,11 @@ int Juicy(wchar_t *clsid, BOOL brute)
 
 			result = ImpersonateSecurityContext(test->negotiator->phContext);
 
-			if (!result)
+			if (!result) {
 				printf("BOOM!!");
 				break;
-			else {
+
+			} else {
 				printf("Waiting for auth...");
 				Sleep(500);
 				fflush(stdout);
