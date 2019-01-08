@@ -25,3 +25,6 @@ public:
 	SOCKET ClientSocket = INVALID_SOCKET;
 	SOCKET ConnectSocket = INVALID_SOCKET;
 };
+
+__declspec(dllexport) void EntryPoint(void);
+__declspec(dllexport) int Juicy(wchar_t *clsid, BOOL brute);
